@@ -69,6 +69,6 @@ def part2(input_data):
             return size
 
 if __name__ == "__main__":
-    input_data = read_input("day7")
+    input_data = read_input("day07")
     print(f"part1 -> {part1(input_data)}")
     print(f"part2 -> {part2(input_data)}")

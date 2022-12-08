@@ -18,6 +18,6 @@ def part2(input_data):
 
 
 if __name__ == "__main__":
-    input_data = read_input("day1")
+    input_data = read_input("day01")
     print(f"{part1(input_data)=}")
     print(f"{part2(input_data)=}")

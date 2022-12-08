@@ -53,7 +53,7 @@ def part2(input_data):
 
 
 if __name__ == "__main__":
-    input_data = read_input("day2")
+    input_data = read_input("day02")
     input_data = [line.split(" ") for line in input_data.splitlines()]
     print(f"{part1(input_data)=}")
     print(f"{part2(input_data)=}")
