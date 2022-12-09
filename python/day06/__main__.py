@@ -3,17 +3,16 @@ from lib import read_input
 
 def part1(input_data):
     for i in range(4, len(input_data)):
-        chunk = input_data[i-4:i]
+        chunk = input_data[i - 4 : i]
         if len(chunk) == len(set(chunk)):
             return i
 
 
 def part2(input_data):
     for i in range(14, len(input_data)):
-        chunk = input_data[i-14:i]
+        chunk = input_data[i - 14 : i]
         if len(chunk) == len(set(chunk)):
             return i
-
 
 
 if __name__ == "__main__":
