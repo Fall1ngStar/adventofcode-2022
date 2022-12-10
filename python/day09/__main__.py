@@ -1,51 +1,41 @@
-from lib import read_input, window
+from lib import read_input, window, Point
 
 DIRECTIONS = {
-    "R": (1, 0),
-    "U": (0, 1),
-    "D": (0, -1),
-    "L": (-1, 0),
+    "R": Point(1, 0),
+    "U": Point(0, 1),
+    "D": Point(0, -1),
+    "L": Point(-1, 0),
 }
 
 
-def part1(input_data):
-    head = (0, 0)
-    tail = (0, 0)
-    visited = {(0, 0)}
+def simulation(input_data, rope_length):
+    rope = [Point(0, 0) for _ in range(rope_length)]
+
+    visited = {Point(0, 0)}
     for line in input_data.splitlines():
         raw_direction, raw_count = line.split(" ")
-        direction = DIRECTIONS[raw_direction]
+        target = DIRECTIONS[raw_direction]
         count = int(raw_count)
         for _ in range(count):
-            head = (head[0] + direction[0], head[1] + direction[1])
-            dx, dy = (head[0] - tail[0], head[1] - tail[1])
-            if any([abs(dx) > 1, abs(dy) > 1]):
-                vx, vy = dx / (abs(dx) or 1), dy / (abs(dy) or 1)
-                tail = (tail[0] + vx, tail[1] + vy)
-                visited.add(tail)
-    return len(visited)
-
-
-def part2(input_data):
-    rope = [(0, 0) for _ in range(10)]
-
-    visited = {(0, 0)}
-    for line in input_data.splitlines():
-        raw_direction, raw_count = line.split(" ")
-        ax, ay = DIRECTIONS[raw_direction]
-        count = int(raw_count)
-        for _ in range(count):
-            hx, hy = rope[0]
-            head = (hx + ax, hy + ay)
+            head = rope[0]
+            head = head + target
             rope[0] = head
-            for i, ((fx, fy), (tx, ty)) in enumerate(window(rope, 2)):
-                dx, dy = (fx - tx, fy - ty)
+            for i, (from_, to) in enumerate(window(rope, 2)):
+                dx, dy = delta = from_ - to
                 if any([abs(dx) > 1, abs(dy) > 1]):
-                    vx, vy = dx / (abs(dx) or 1), dy / (abs(dy) or 1)
-                    to = (tx + vx, ty + vy)
+                    move = delta.nor
+                    to = to + move
                     rope[i + 1] = to
             visited.add(rope[-1])
     return len(visited)
+
+
+def part1(input_data):
+    return simulation(input_data, 2)
+
+
+def part2(input_data):
+    return simulation(input_data, 10)
 
 
 if __name__ == "__main__":
