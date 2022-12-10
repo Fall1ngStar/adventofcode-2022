@@ -58,7 +58,7 @@ def part1(input_data):
 def d_up(x, y, trees):
     score = 0
     height = trees[x][y]
-    for i in range(x-1, -1, -1):
+    for i in range(x - 1, -1, -1):
         if trees[i][y] >= height:
             return score + 1
         score += 1
@@ -78,7 +78,7 @@ def d_down(x, y, trees):
 def d_left(x, y, trees):
     score = 0
     height = trees[x][y]
-    for i in range(y -1, -1, -1):
+    for i in range(y - 1, -1, -1):
         if trees[x][i] >= height:
             return score + 1
         score += 1
@@ -102,7 +102,9 @@ def distance(x, y, trees):
         d_left(x, y, trees),
         d_right(x, y, trees),
     ]
-    print(f"{x},{y}->{trees[x][y]} up={values[0]} down={values[1]} left={values[2]} right={values[3]}")
+    print(
+        f"{x},{y}->{trees[x][y]} up={values[0]} down={values[1]} left={values[2]} right={values[3]}"
+    )
     return (
         d_up(x, y, trees)
         * d_down(x, y, trees)
@@ -116,7 +118,7 @@ def part2(input_data):
     # print(trees)
     score = []
     for x in range(1, len(trees) - 1):
-        for y in range(1, len(trees[x]) -1):
+        for y in range(1, len(trees[x]) - 1):
             if is_visible(x, y, trees):
                 score.append(distance(x, y, trees))
     return max(score)
