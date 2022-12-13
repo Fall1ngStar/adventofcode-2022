@@ -7,7 +7,10 @@ def parse_input(input_data):
     for raw_monkey in input_data.split("\n\n"):
         lines = raw_monkey.splitlines()
         monkey_num = lines[0].removeprefix("Monkey ").removesuffix(":")
-        items = [int(item) for item in lines[1].removeprefix("  Starting items: ").split(", ")]
+        items = [
+            int(item)
+            for item in lines[1].removeprefix("  Starting items: ").split(", ")
+        ]
         operation = lines[2].removeprefix("  Operation: new = ")
         divisible = int(lines[3].removeprefix("  Test: divisible by "))
         if_true = lines[4].removeprefix("    If true: throw to monkey ")
@@ -18,14 +21,14 @@ def parse_input(input_data):
             "divisible": divisible,
             "if_true": if_true,
             "if_false": if_false,
-            "inspect": 0
+            "inspect": 0,
         }
     return monkeys
 
 
 def part1(input_data):
     monkeys = parse_input(input_data)
-    
+
     for _ in range(20):
         for monkey in monkeys.values():
             while monkey["items"]:
@@ -38,7 +41,8 @@ def part1(input_data):
                     monkeys[monkey["if_false"]]["items"].append(new_value)
                 monkey["inspect"] += 1
     *_, a, b = sorted([monkey["inspect"] for monkey in monkeys.values()])
-    return a * b    
+    return a * b
+
 
 def part2(input_data):
     monkeys = parse_input(input_data)
@@ -55,7 +59,7 @@ def part2(input_data):
                 target["items"].append(new_value % common_multiple)
                 monkey["inspect"] += 1
     *_, a, b = sorted([monkey["inspect"] for monkey in monkeys.values()])
-    return a * b    
+    return a * b
 
 
 if __name__ == "__main__":

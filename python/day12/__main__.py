@@ -1,6 +1,7 @@
 from lib import read_input
 from collections import defaultdict
 
+
 def parse_input(input_data):
     grid = [[char for char in line] for line in input_data.splitlines()]
     start = None
@@ -22,14 +23,15 @@ def get_neighbours(point, grid):
     val = grid[x][y]
     neighbours = []
     if x < len(grid) - 1:
-        neighbours.append((x+1, y))
+        neighbours.append((x + 1, y))
     if x > 0:
-        neighbours.append((x-1, y))
+        neighbours.append((x - 1, y))
     if y < len(grid[x]) - 1:
-        neighbours.append((x, y+1))
+        neighbours.append((x, y + 1))
     if y > 0:
-        neighbours.append((x, y-1))
+        neighbours.append((x, y - 1))
     return [(xn, yn) for xn, yn in neighbours if grid[xn][yn] - val <= 1]
+
 
 def reconstruct_path(came_from, current):
     path = [current]
@@ -38,17 +40,20 @@ def reconstruct_path(came_from, current):
         path.append(current)
     return path
 
+
 def print_map(grid, path):
-    new_grid = [[chr(val+96) for val in line] for line in grid]
+    new_grid = [[chr(val + 96) for val in line] for line in grid]
     for x, y in path:
         new_grid[x][y] = " "
     for line in new_grid:
         print("".join(line))
     print("_")
 
+
 def a_star(start, end, grid):
     def heuristic(point):
         return abs(point[0] - end[0]) + abs(point[1] - end[1])
+
     open_set = {start}
     came_from = {}
 
@@ -58,7 +63,9 @@ def a_star(start, end, grid):
     f_score = defaultdict(lambda: 99999999)
     f_score[start] = heuristic(start)
     while open_set:
-        current, _ = sorted([(val, f_score[val]) for val in open_set], key=lambda x: x[1])[0]
+        current, _ = sorted(
+            [(val, f_score[val]) for val in open_set], key=lambda x: x[1]
+        )[0]
         # print_map(grid, reconstruct_path(came_from, current))
         if current == end:
             return reconstruct_path(came_from, current)
@@ -73,12 +80,14 @@ def a_star(start, end, grid):
                     open_set.add(neighbour)
     return "failed"
 
+
 def part1(input_data):
     grid, start, end = parse_input(input_data)
     path = a_star(start, end, grid)
     if path == "failed":
         return -1
-    return len(path) - 1 
+    return len(path) - 1
+
 
 def part2(input_data):
     grid, _, end = parse_input(input_data)
@@ -86,8 +95,9 @@ def part2(input_data):
     for x in range(len(grid)):
         for y in range(len(grid[x])):
             if grid[x][y] == 1:
-                candidates[(x,y)] = a_star((x, y), end, grid)
+                candidates[(x, y)] = a_star((x, y), end, grid)
     return min([len(c) for c in candidates.values() if c != "failed"]) - 1
+
 
 if __name__ == "__main__":
     input_data = read_input("day12")
