@@ -60,6 +60,14 @@ class Point:
     def __iter__(self):
         return iter(self.dimensions)
 
+    def __len__(self):
+        return sum([abs(val) for val in self.dimensions])
+    
+    def __mul__(self, value):
+        return Point(*[dim * value for dim in self.dimensions])
+
+    def __getitem__(self, key):
+        return self.dimensions[key]
 
 def print_on_map(rows: int, cols: int, **kwargs: dict[str, tuple[int, int]]):
     result = [["." for _ in range(cols)] for _ in range(rows)]
